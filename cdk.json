@@ -30,6 +30,14 @@
     "@aws-cdk/core:target-partitions": [
       "aws",
       "aws-cn"
-    ]
+    ],
+    "vpc_configs":{
+      "default_vpc_id":"vpc-999999"
+      ,"region":"us-east-1"
+      ,"key_name":"my-ec2-spark-cluster"
+      ,"account":"11111111"
+    }
+  
   }
+
 }
