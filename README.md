@@ -29,7 +29,7 @@ Successfully Started MongoDB
 Cloud-init v. 22.2-0ubuntu1~20.04.1 running 'modules:final' at Wed, 20 Jul 2022 19:19:35 +0000. Up 25.26 seconds.
 Cloud-init v. 22.2-0ubuntu1~20.04.1 finished at Wed, 20 Jul 2022 19:22:53 +0000. Datasource DataSourceEc2Local.  Up 222.82 seconds
 ```
-Also note, that when the AWS CDK stack is deployed an output will show the Public IP of the server. It will look like something:
+Also note, that when the AWS CDK stack is deployed an output will show the Public IP of the server. It will look something like this:
 >MongoSparkStack.WebServerMongoSparkIDpublicIP= 56.996.45.1
 
 ### SSH: 
