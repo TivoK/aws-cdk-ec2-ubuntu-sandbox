@@ -37,7 +37,7 @@ Below is the general syntax to perform various SSH Commands
 
 _**connect syntax**_: SSH into Ubuntu EC2 Instance <br> 
 *syntax*:`ssh -i ~/Downloads/your-key-file.pem ubuntu@public_ip`<br>
-*example*:`ssh -i ~~/Downloads/my-ec2-spark-cluster.pem ubuntu@54.242.117.16`
+*example*:`ssh -i ~/Downloads/my-ec2-spark-cluster.pem ubuntu@54.242.117.16`
 
 _**copying resouces files to EC2 syntax**_:  Copying files from your local machine to EC2 Instance <br>
 *syntax*:`scp -i ~/Downloads/your-key-file.pem -r ~/path/to/clone/folder/aws-ec2-spark-mongo/resources ubuntu@your.public.ip:~/ ` <br>
