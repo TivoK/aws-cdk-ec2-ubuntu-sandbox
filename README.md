@@ -8,6 +8,7 @@ Note that all logs & security groups are designed to be destoryed once EC2 insta
 ### Getting Started 
 - This assumes AWS CDK is already installed on your machine. If not, see installation instructions [here](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html)
 - In your AWS Console, go to `EC2 Dashboard`, Click on `Key Pairs`, Create and Download a new `Key Pair`
+- On your local machine perfrom `chmod 400` on the pem file. example: `chmod 400 ~/Downloads/Ec2ubuntu.pem`
 - Clone this repo and Create  a Virtual Environment. Ensure to use `pip install -r requirements.txt`
 - In the `CDK.JSON` file, update the *vpc_configs* section in the  *context* section.
                 - **default_vpc_id**: VPC you want to place your EC2 Instance in. You can find your default VPC for your account in the AWS EC2 Dashboard in the Account Attributes section. A VPC ID will look something like: ` vpc-9aa9999`
