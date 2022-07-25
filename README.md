@@ -8,18 +8,18 @@ Note that all logs & security groups are designed to be destoryed once EC2 insta
 ### Getting Started 
 - This assumes AWS CDK is already installed on your machine. If not, see installation instructions [here](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html)
 - In your AWS Console, go to `EC2 Dashboard`, Click on `Key Pairs`, Create and Download a new `Key Pair`
-- On your local machine perfrom `chmod 400` on the pem file. example: `chmod 400 ~/Downloads/Ec2ubuntu.pem`
+- On your local machine perform `chmod 400` on the pem file. Example: `chmod 400 ~/Downloads/Ec2ubuntu.pem`
 - Clone this repo and Create  a Virtual Environment. Ensure to use `pip install -r requirements.txt`
-- In the `CDK.JSON` file, update the *vpc_configs* section in the  *context* section.
-                - **default_vpc_id**: VPC you want to place your EC2 Instance in. You can find your default VPC for your account in the AWS EC2 Dashboard in the Account Attributes section. A VPC ID will look something like: ` vpc-9aa9999`
-                - **region**: Your AWS region Availibility Zone (ie. "us-east-1")
-                - **key_name**: The name of the key pair you created and downloaded
-                - **account**: Your AWS Account Number (No Dashes "-")
+- In the `CDK.JSON` file, update the *vpc_configs* sub-section in the  *context* section.
+  - **default_vpc_id**: VPC you want to place your EC2 Instance in. You can find your default VPC for your account in the AWS EC2 Dashboard in the Account Attributes section. A VPC ID will look something like: ` vpc-9aa9999`
+  - **region**: Your AWS region Availibility Zone (ie. "us-east-1")
+  - **key_name**: The name of the key pair you created and downloaded
+  - **account**: Your AWS Account Number (No Dashes "-")
 - Execute CDK Commands to Bootstrap, Synth and Deploy as needed. You can get a refresher [here](https://docs.aws.amazon.com/cdk/v2/guide/hello_world.html).
 - When the the Stack is deployed SSH into the Server and then complete the configuration for Spark and Jupyter via provided bash scripts provided in the resources folder. See SSH Section below.
 
 ### Deploying the Stack
-Once the stack is deployed, intallation dependencies will commence for Spark, Jupyter and MongoDB. Such that it is possible that when you SSH into the server for the first times items are still being installed. It takes about 2-3 minutes for installation steps to complete. You can check the progress of the installations in the log file to make sure the items are complete (`tail -f /var/log/cloud-init-output.log `)
+Once the stack is deployed, installation dependencies will commence for Spark, Jupyter and MongoDB. Such that it is possible that when you SSH into the server for the first times items are still being installed. It takes about 2-3 minutes for installation steps to complete. You can check the progress of the installations in the log file to make sure the items are complete (`tail -f /var/log/cloud-init-output.log `)
 A completed message will be at the end log file. It should look like so....
 ```
 Successfully installed MongoDB Packages
@@ -33,41 +33,40 @@ Also note, that when the AWS CDK stack is deployed an output will show the Publi
 >MongoSparkStack.WebServerMongoSparkIDpublicIP= 56.996.45.1
 
 ### SSH: 
-Below is the general syntax to perform 
-_**connect syntax**_: `ssh -i ~/Downloads/your-key-file.pem ubuntu@public_ip`
-example:
-`ssh -i ~~/Downloads/my-ec2-spark-cluster.pem ubuntu@54.242.117.16`
+Below is the general syntax to perform various SSH Commands
 
-_**copying resouces files to EC2 syntax**_:  From your local machine
-`scp -i ~/Downloads/your-key-file.pem -r ~/path/to/clone/folder/aws-ec2-spark-mongo/resources ubuntu@your.public.ip:~/ `
-example:
-`scp -i ~/Downloads/my-ec2-spark-cluster.pem -r ~/pythonprojects/aws-ec2-spark-mongo/resources ubuntu@54.242.117.16:~/ `
-_**configure jupyter**_: First copy resources to EC2 to server. Then from ubuntu user execute:
-`bash resources/jupyter_config.sh`. Then verify the configurations completed by peforming
-`head .jupyter/jupyter_notebook_config.py`. Results should look as follows:
->c = get_config()
-c.NotebookApp.certfile= u'/home/ubuntu/certs/mycert.pem'
-c.NotebookApp.ip = '*'
-c.NotebookApp.open_browser = False
-c.NotebookApp.port = 8888
+_**connect syntax**_: SSH into Ubuntu EC2 Instance <br> 
+*syntax*:`ssh -i ~/Downloads/your-key-file.pem ubuntu@public_ip`<br>
+*example*:`ssh -i ~~/Downloads/my-ec2-spark-cluster.pem ubuntu@54.242.117.16`
 
-_**configure spark**_: First copy resources to EC2 to server. Then from ubuntu user execute:
-`bash resources/spark_config.sh`. Refresh profile `source ~/.profile` 
+_**copying resouces files to EC2 syntax**_:  Copying files from your local machine to EC2 Instance <br>
+*syntax*:`scp -i ~/Downloads/your-key-file.pem -r ~/path/to/clone/folder/aws-ec2-spark-mongo/resources ubuntu@your.public.ip:~/ ` <br>
+*example*:`scp -i ~/Downloads/my-ec2-spark-cluster.pem -r ~/pythonprojects/aws-ec2-spark-mongo/resources ubuntu@54.242.117.16:~/ `
+
 
 ### Starting a Jupyternotebook
-- ensure you ran jupyter_config.sh
-- with ubunut user, execute `jupyter notebook`
-- copy url ex:`https://127.0.0.1:8888/?token=76bc85688fd7ab6a1021b890480f371cf7ddfb6f40ecd9d0`
-- replace 127.0.0.1 with ec2 Public IP. 
-- paste in browser,read warning details, select continue (visit site). **Note**: Chrome Browser may not allow visitng site because of security configurations. Recommend using Safari if on Mac. 
+- First copy the resources project folder to the EC2 server
+- From ubuntu home directory execute: `bash resources/jupyter_config.sh` (Only need to do this once)
+- Verify the configurations completed by peforming: <br>
+`head .jupyter/jupyter_notebook_config.py`. Results should look as follows:
+  >c = get_config() <br>
+  c.NotebookApp.certfile= u'/home/ubuntu/certs/mycert.pem'<br>
+  c.NotebookApp.ip = '*'<br>
+  c.NotebookApp.open_browser = False<br>
+  c.NotebookApp.port = 8888
+- With ubuntu user, execute `jupyter notebook`
+- Copy url ex:`https://127.0.0.1:8888/?token=76bc85688fd7ab6a1021b890480f371cf7ddfb6f40ecd9d0`
+- Replace 127.0.0.1 with ec2 Public IP. 
+- Paste URL in browser,read warning details, select continue (visit site). **Note**: Chrome Browser may not allow visitng site because of security configurations. Recommend using Safari if on Mac. 
 - **Note**: its is possible to use Spark on JupyterNotebook. _findspark_ package is available. 
 
 ## Starting Mongo Shell
 - `sudo su`; then execute `mongosh`
 
 ## Starting PySpark
-- ensure you ran spark_config.sh
-- referesh profile `source ~/.profile` 
-- execute `pyspark` from ubuntu user
-- note by default the server adds 1 master and 1 work node.
-- you can visit your spark web ui by visting `http://your.pub.lic.ip:8080/`
+- First copy the resources project folder to the EC2 server
+- From ubuntu Home Directory execute:`bash resources/spark_config.sh` (Only need to do this once)
+- Referesh profile `source ~/.profile` (Only need to do this once)
+- Execute `pyspark` command with Ubuntu user
+- Note by default the server adds 1 master and 1 work node.
+- You can visit your spark web ui by visting `http://your.pub.lic.ip:8080/`
