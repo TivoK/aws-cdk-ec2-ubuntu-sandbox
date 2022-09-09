@@ -60,13 +60,13 @@ _**copying resouces files to EC2 syntax**_:  Copying files from your local machi
 - Paste URL in browser,read warning details, select continue (visit site). **Note**: Chrome Browser may not allow visitng site because of security configurations. Recommend using Safari if on Mac. 
 - **Note**: its is possible to use Spark on JupyterNotebook. _findspark_ package is available.
 - psypark can be found in Jupyter notebook as follows:
->#first find spark...<br>
-import findspark<br>
-findspark.init('/opt/spark')<br>
-#then we can can import pyspark stuff..<br>
-from pyspark import SparkConf<br>
-from pyspark.context import SparkContext<br>
-from pyspark.sql import SQLContext, SparkSession<br> 
+  >#first find spark...<br>
+  import findspark<br>
+  findspark.init('/opt/spark')<br>
+  #then we can can import pyspark stuff..<br>
+  from pyspark import SparkConf<br>
+  from pyspark.context import SparkContext<br>
+  from pyspark.sql import SQLContext, SparkSession<br> 
 
 ## Starting Mongo Shell
 - `sudo su`; then execute `mongosh`
