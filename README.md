@@ -1,7 +1,7 @@
 # AWS EC2 Unbutu 20.04 Sandbox
 #### _Deploy an Ubuntu Server with Spark, MongoDB and Juptyer w/ AWS CDK_
 
-### About
+### About 
 This Repository contains IaC for spinning up a generic ubuntu web server for testing purposes. This server allows all ingress/outbound traffic on ports by default. But can be configured as needed.
 Note that all logs & security groups are designed to be destoryed once EC2 instance is torn down.
 
